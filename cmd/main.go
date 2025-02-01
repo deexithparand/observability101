@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"observe/internal/server"
+	"observe/internal/server/routes"
 	"strconv"
 )
 
@@ -17,21 +17,21 @@ func main() {
 	host := "localhost:"
 	port := 8080
 
+	// defining mux
+	mux := http.NewServeMux()
+
 	// defining routes
-	for route_name, route_path := range server.RoutePathMap {
-		fmt.Println("Defined route for ", route_name)
-		http.HandleFunc(route_path, server.RouteHandlerMap[route_path])
-	}
+	routes.InitRoutes(mux)
 
 	// start server
-	server := &http.Server{
+	httpserver := &http.Server{
 		Addr: host + strconv.Itoa(port),
 	}
 
-	fmt.Println("Server's heart beats at : ", server.Addr)
-	err := server.ListenAndServe()
+	fmt.Println("Server's heart beats at : ", httpserver.Addr)
+	err := http.ListenAndServe(httpserver.Addr, mux)
 	if err != nil {
-		server.ErrorLog.Panicf("server error : %v", err)
+		httpserver.ErrorLog.Panicf("server error : %v", err)
 	}
 
 	defer server_closed()
