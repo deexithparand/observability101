@@ -15,7 +15,7 @@ func (rf *ResponseFormat) ResponseFormatSetter(w http.ResponseWriter, r *http.Re
 	// formatting the response
 	response_setter := ResponseFormat{
 		Method:  r.Method,
-		Route:   r.RequestURI,
+		Route:   r.URL.Path,
 		Message: message,
 	}
 
