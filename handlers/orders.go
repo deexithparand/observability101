@@ -42,7 +42,7 @@ func GetOrders(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var get_orders_rf *response.ResponseFormat
-	err = get_orders_rf.ResponseFormatSetter(w, r, string(orders_data_json))
+	err = get_orders_rf.ResponseFormatSetter(w, r, string(orders_data_json), 200)
 	if err != nil {
 		panic(err)
 	}
